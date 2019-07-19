@@ -25,6 +25,11 @@ namespace GPGre.QuadraticBezier
 
         #region Spline Parameters
 
+        #if UNITY_EDITOR
+        public delegate void SplineChangeDel();
+        public event SplineChangeDel OnSplineChange;
+        #endif
+
         // Loop the curve
         [SerializeField]
         private bool loop;
@@ -110,6 +115,10 @@ namespace GPGre.QuadraticBezier
                 };
 
             RecalculateSplineDistance();
+
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         #endregion
@@ -171,6 +180,9 @@ namespace GPGre.QuadraticBezier
             points[index] = point;
             EnforceMode(index);
 
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         /// <summary>
@@ -218,6 +230,9 @@ namespace GPGre.QuadraticBezier
             }
             EnforceMode(index);
 
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         /// <summary>
@@ -512,6 +527,10 @@ namespace GPGre.QuadraticBezier
                 modes[modes.Length - 1] = modes[0];
                 EnforceMode(0);
             }
+
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         /// <summary>
@@ -554,6 +573,10 @@ namespace GPGre.QuadraticBezier
                 modes[modes.Length - 1] = modes[0];
                 EnforceMode(0);
             }
+
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         /// <summary>
@@ -593,6 +616,9 @@ namespace GPGre.QuadraticBezier
             modesList.RemoveAt(selectedPoint / 3);
             modes = modesList.ToArray();
 
+            #if UNITY_EDITOR
+            this.OnSplineChange?.Invoke();
+            #endif
         }
 
         #endregion
